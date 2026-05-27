@@ -870,12 +870,12 @@
     </section>
 
     <section class="section" id="interview">
-      <div class=”section-head”>
+      <div class="section-head">
         <div>
           <h2>面试准备模块</h2>
-          <p class=”section-desc”>产品不仅优化简历，还帮助用户准备面试，让求职流程从”投递前”延伸到”面试前”。</p>
+          <p class="section-desc">产品不仅优化简历，还帮助用户准备面试，让求职流程从"投递前"延伸到"面试前"。</p>
         </div>
-        <button id=”interview-btn” class=”btn btn-primary” style=”white-space:nowrap”>生成面试准备</button>
+        <button id="interview-btn" class="btn btn-primary" style="white-space:nowrap">生成面试准备</button>
       </div>
       <div class="interview-grid">
         <div class="interview-card">
@@ -992,10 +992,14 @@
         return Math.min(98, Math.round((hit / jdKeywords.length) * 100));
       }
 
-      function generateRewrite(resumeText, keywords){
+      function generateRewrite(resumeText, keywords, direction){
         const keyStr = keywords.length? ('，核心关键词：' + keywords.join('、')) : '';
-        const sentence = '围绕目标岗位强化项目的用户价值、实现方式和结果产出。建议采用 STAR 结构，突出目标、方法与量化指标' + keyStr + '。';
-        return sentence + '\n示例改写：' + (resumeText.length? resumeText.replace(/。/g,'，') + '，在项目中负责需求分析与产品设计，推动上线并产出关键指标提升。' : '（请粘贴你的项目经历，系统将基于此生成改写）');
+        const dirStr = direction ? `围绕${direction}方向` : '围绕目标岗位';
+        const sentence = dirStr + '强化项目的用户价值、实现方式和结果产出。建议采用 STAR 结构，突出目标、方法与量化指标' + keyStr + '。';
+        const example = direction
+          ? `示例改写：${resumeText.length? resumeText.replace(/。/g,'，') + '，针对' + direction + '方向梳理需求分析与产品设计逻辑，推动上线并产出关键指标提升。' : '（请粘贴你的项目经历，系统将基于此生成' + direction + '方向的改写）'}`
+          : '示例改写：' + (resumeText.length? resumeText.replace(/。/g,'，') + '，在项目中负责需求分析与产品设计，推动上线并产出关键指标提升。' : '（请粘贴你的项目经历，系统将基于此生成改写）');
+        return sentence + '\n' + example;
       }
 
       function renderResultFromAPI(data){
@@ -1004,7 +1008,7 @@
         const keywords = data.keywords || [];
         const advantages = data.advantages || '';
         const issues = data.issues || '';
-        const rewritten = data.rewritten || generateRewrite(document.getElementById('resume-input').value, keywords);
+        const rewritten = data.rewritten || generateRewrite(document.getElementById('resume-input').value, keywords, directionEl?.value || '');
 
         // 分数
         const scoreEl = document.querySelector('.circle-score strong');
@@ -1058,15 +1062,27 @@
       function localAnalyze(jd, resume, direction){
         const kws = extractKeywords(jd);
         const score = computeScore(kws, resume);
+        const dirLabel = direction || '目标岗位';
         return {
           score,
           keywords: kws,
-          advantages: '',
-          issues: '',
-          rewritten: generateRewrite(resume, kws),
-          selfIntro: ['突出专业背景与工具使用能力，说明岗位匹配理由。', '简要介绍你的项目经历及成果。'],
-          projectQuestions: ['请简要介绍你参与的项目背景。', '项目中你负责哪些核心工作？', '你如何验证该功能的效果？'],
-          reverseQuestions: ['贵公司实习生在 AI 产品团队中通常承担哪些核心任务？', '团队对实习生的指标和期望是什么？', '未来产品迭代主要依赖哪些用户数据？']
+          advantages: `专业背景与${dirLabel}方向有一定匹配，具备基础工具使用能力。`,
+          issues: '项目描述较为笼统，建议补充数据指标与具体成果量化。',
+          rewritten: generateRewrite(resume, kws, direction),
+          selfIntro: [
+            `突出你的专业背景与${dirLabel}方向的关联度，说明你为什么适合该岗位。`,
+            `简述你在${dirLabel}相关项目中的角色、方法和结果，展示产品思维。`
+          ],
+          projectQuestions: [
+            `你为什么选择${dirLabel}方向？对这个领域有什么理解？`,
+            '请详细介绍一个你参与的产品项目，从需求到落地的完整过程。',
+            `如果你的${dirLabel}简历被拒，你觉得可能的原因是什么？`
+          ],
+          reverseQuestions: [
+            `贵公司${dirLabel}实习生通常承担哪些核心任务？`,
+            '团队对实习生的期望和培养计划是怎样的？',
+            `${dirLabel}方向的产品迭代主要依赖哪些用户数据或指标？`
+          ]
         };
       }
 

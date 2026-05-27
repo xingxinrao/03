@@ -131,14 +131,16 @@ async function interviewByOpenAI(jd, resume, direction) {
 }
 
 function localRewrite(jd, resume, direction) {
-  return `围绕${direction||'目标岗位'}强化项目的用户价值、实现方式和结果产出。建议采用 STAR 结构，突出目标、方法与量化指标。`;
+  const dir = direction||'目标岗位';
+  return `围绕${dir}方向强化项目的用户价值、实现方式和结果产出。建议采用 STAR 结构，突出目标、方法与量化指标。`;
 }
 
 function localInterview(jd, resume, direction) {
+  const dir = direction||'AI 产品';
   return {
-    selfIntro: ['突出专业背景与项目经验，说明你为什么适合该岗位。', '展示你对 AI 产品实习方向的理解及相关能力。'],
-    projectQuestions: ['请简要介绍你参与的项目背景。', '项目中你负责哪些核心工作？', '你如何验证该功能的效果？'],
-    reverseQuestions: ['贵公司实习生在 AI 产品团队中通常承担哪些核心任务？', '团队对实习生的指标和期望是什么？', '未来产品迭代主要依赖哪些用户数据？']
+    selfIntro: [`突出你的专业背景与${dir}方向的关联度，说明你为什么适合该岗位。`, `简述你在${dir}相关项目中的角色、方法和结果。`],
+    projectQuestions: [`你为什么选择${dir}方向？对这个领域有什么理解？`, '请详细介绍一个你参与的产品项目，从需求到落地的完整过程。', `如果你的${dir}简历被拒，你觉得可能的原因是什么？`],
+    reverseQuestions: [`贵公司${dir}实习生通常承担哪些核心任务？`, '团队对实习生的期望和培养计划是怎样的？', `${dir}方向的产品迭代主要依赖哪些用户数据或指标？`]
   };
 }
 
