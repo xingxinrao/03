@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#2454ff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="manifest" href="manifest.json" />
+  <title>AI 简历优化助手 - 产品原型</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: #f5f7fb;
+      color: #172033;
+      line-height: 1.6;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    .mobile-preview {
+      display: none;
+      margin-bottom: 18px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #eef2ff;
+      color: #2454ff;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .share-bar {
+      display: none;
+    }
+
+    .install-hint {
+      display: none;
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: #101828;
+      color: #fff;
+      font-size: 13px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 12px 16px;
+      border-radius: 18px;
+      background: rgba(245, 247, 251, 0.9);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: #5e6a82;
+      font-weight: 500;
+    }
+
+    .logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: #2454ff;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      color: #5e6a82;
+      font-size: 14px;
+    }
+
+    .share-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 36px;
+      align-items: center;
+      margin-bottom: 54px;
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: #e9eeff;
+      color: #2454ff;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: 46px;
+      line-height: 1.12;
+      letter-spacing: -1px;
+      margin-bottom: 18px;
+      color: #101828;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: #5e6a82;
+      max-width: 620px;
+      margin-bottom: 26px;
+    }
+
+    .hero-note {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .hero-note span {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #ffffff;
+      color: #44516b;
+      border: 1px solid #dce3f2;
+      font-size: 13px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 12px;
+      padding: 13px 20px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: default;
+    }
+
+    .btn-primary {
+      background: #2454ff;
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: #2454ff;
+      border: 1px solid #dce3f2;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .stat {
+      background: #fff;
+      border: 1px solid #e3e8f4;
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 24px;
+      color: #101828;
+      margin-bottom: 4px;
+    }
+
+    .stat span {
+      color: #6b7690;
+      font-size: 13px;
+    }
+
+    .section-kicker {
+      display: inline-flex;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #2454ff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-bottom: 12px;
+    }
+
+    .mock-panel {
+      background: #fff;
+      border: 1px solid #e3e8f4;
+      border-radius: 24px;
+      padding: 22px;
+    }
+
+    .panel-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .panel-title {
+      font-weight: 700;
+      color: #101828;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: #f0f3f9;
+      color: #5e6a82;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .score-box {
+      border-radius: 20px;
+      background: #f7f9ff;
+      border: 1px solid #e4eaff;
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+
+    .score-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      margin-bottom: 12px;
+    }
+
+    .score {
+      font-size: 42px;
+      font-weight: 800;
+      color: #2454ff;
+      line-height: 1;
+    }
+
+    .progress {
+      height: 10px;
+      background: #dfe6ff;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress span {
+      display: block;
+      width: 76%;
+      height: 100%;
+      background: #2454ff;
+      border-radius: 999px;
+    }
+
+    .keyword-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .keyword {
+      padding: 6px 10px;
+      background: #eef3ff;
+      color: #2454ff;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .mini-item {
+      padding: 12px;
+      border: 1px solid #edf0f7;
+      border-radius: 14px;
+      color: #4d5972;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    .section {
+      margin-bottom: 54px;
+      padding-top: 6px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      margin-bottom: 20px;
+      gap: 20px;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      color: #101828;
+    }
+
+    .section-desc {
+      color: #6b7690;
+      max-width: 680px;
+    }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .flow-card {
+      background: #fff;
+      border: 1px solid #e3e8f4;
+      border-radius: 18px;
+      padding: 18px;
+      min-height: 170px;
+    }
+
+    .step-num {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      background: #2454ff;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      margin-bottom: 14px;
+      font-size: 13px;
+    }
+
+    .flow-card h3 {
+      font-size: 17px;
+      margin-bottom: 8px;
+      color: #101828;
+    }
+
+    .flow-card p {
+      color: #66728a;
+      font-size: 14px;
+    }
+
+    .prototype {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .input-card,
+    .result-card,
+    .interview-card,
+    .prd-card {
+      background: #fff;
+      border: 1px solid #e3e8f4;
+      border-radius: 22px;
+      padding: 22px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #25314a;
+    }
+
+    select,
+    textarea,
+    input[type="file"] {
+      width: 100%;
+      border: 1px solid #dce3f2;
+      border-radius: 14px;
+      padding: 13px 14px;
+      font-family: inherit;
+      color: #303b52;
+      background: #fbfcff;
+      margin-bottom: 16px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 130px;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .circle-score {
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+      border: 14px solid #dfe6ff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #2454ff;
+      font-weight: 800;
+      background: #f7f9ff;
+    }
+
+    .circle-score strong {
+      font-size: 34px;
+      line-height: 1;
+    }
+
+    .circle-score span {
+      font-size: 12px;
+      color: #66728a;
+      margin-top: 4px;
+    }
+
+    .diagnosis {
+      display: grid;
+      gap: 10px;
+    }
+
+    .diagnosis-item {
+      background: #f8faff;
+      border: 1px solid #edf1fb;
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 14px;
+      color: #4d5972;
+    }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .compare-box {
+      border-radius: 16px;
+      padding: 16px;
+      border: 1px solid #e3e8f4;
+      background: #fbfcff;
+    }
+
+    .compare-box h4 {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #101828;
+    }
+
+    .compare-box p {
+      font-size: 14px;
+      color: #5e6a82;
+    }
+
+    .highlight {
+      background: #eef3ff;
+      border-color: #cbd8ff;
+    }
+
+    .interview-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .interview-card h3,
+    .prd-card h3 {
+      font-size: 18px;
+      margin-bottom: 14px;
+      color: #101828;
+    }
+
+    ul {
+      padding-left: 18px;
+      color: #5e6a82;
+      font-size: 14px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .prd-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .footer {
+      background: #101828;
+      color: #fff;
+      border-radius: 24px;
+      padding: 28px;
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .footer p {
+      color: #c7cfdd;
+      max-width: 720px;
+    }
+
+    .bottom-nav {
+      display: none;
+    }
+
+    .share-bar {
+      display: none;
+    }
+
+    @media (max-width: 900px) {
+      .mobile-preview {
+        display: block;
+      }
+      .page {
+        padding: 16px;
+      }
+      .nav {
+        margin-bottom: 28px;
+        padding: 10px 12px;
+      }
+      .brand {
+        gap: 10px;
+      }
+      .logo {
+        width: 34px;
+        height: 34px;
+        border-radius: 11px;
+      }
+      .brand-text span:first-child {
+        font-size: 16px;
+      }
+      .brand-subtitle {
+        display: none;
+      }
+      .hero {
+        gap: 22px;
+        margin-bottom: 34px;
+      }
+      .badge {
+        font-size: 12px;
+      }
+      .hero-note {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .hero-note span {
+        width: 100%;
+      }
+      .actions {
+        flex-direction: column;
+      }
+      .btn {
+        width: 100%;
+      }
+      .mock-panel,
+      .input-card,
+      .result-card,
+      .interview-card,
+      .prd-card,
+      .flow-card,
+      .footer {
+        border-radius: 18px;
+      }
+      .prototype {
+        gap: 18px;
+      }
+      .input-card,
+      .result-card {
+        padding: 18px;
+      }
+      .flow-card,
+      .interview-card,
+      .prd-card {
+        min-height: auto;
+      }
+      .footer {
+        padding: 18px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .footer .actions {
+        width: 100%;
+      }
+      .bottom-nav {
+        display: flex;
+        position: fixed;
+        left: 16px;
+        right: 16px;
+        bottom: 14px;
+        z-index: 20;
+        gap: 8px;
+        padding: 10px;
+        border-radius: 18px;
+        background: rgba(16, 24, 40, 0.94);
+        backdrop-filter: blur(12px);
+        box-shadow: none;
+        justify-content: space-between;
+      }
+      .bottom-nav a {
+        flex: 1;
+        text-align: center;
+        color: #c7cfdd;
+        text-decoration: none;
+        font-size: 12px;
+        padding: 8px 6px;
+        border-radius: 12px;
+      }
+      .bottom-nav a.active {
+        background: #2454ff;
+        color: #fff;
+        font-weight: 700;
+      }
+      body {
+        padding-bottom: 92px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .prototype,
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-grid,
+      .interview-grid,
+      .prd-grid,
+      .hero-stats,
+      .compare {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="share-bar">分享链接版 Demo · 手机浏览器直接打开即可使用</div>
+  <main class="page">
+    <div class="mobile-preview">移动端演示模式：页面已优化为手机浏览器可直接使用。</div>
+    <nav class="nav">
+      <div class="brand">
+        <div class="logo">AI</div>
+        <div class="brand-text">
+          <span>AI 简历优化助手</span>
+          <span class="brand-subtitle">AI 产品实习作品集 · MVP 原型</span>
+        </div>
+      </div>
+      <div class="nav-links">
+        <span>产品定位</span>
+        <span>核心流程</span>
+        <span>原型展示</span>
+        <span>指标设计</span>
+      </div>
+    </nav>
+
+    <section class="hero" id="home">
+      <div>
+        <div class="badge">AI 产品实习作品｜MVP 原型</div>
+        <h1>根据岗位 JD，帮大学生快速优化简历和面试准备</h1>
+        <p class="subtitle">面向正在找实习的大学生，产品通过解析岗位要求、诊断简历匹配度、改写项目经历和生成面试问题，降低求职准备门槛。</p>
+        <div class="hero-note">
+          <span>面向应届生求职场景</span>
+          <span>支持 JD + 简历输入</span>
+          <span>输出诊断 + 改写 + 面试准备</span>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="share-link-btn">复制分享链接</button>
+          <button class="btn btn-secondary" id="install-btn">安装到手机桌面</button>
+        </div>
+        <div class="install-hint" id="install-hint">如果你用手机浏览器打开这个页面，可以通过浏览器菜单“添加到主屏幕”安装成 App。</div>
+        <div class="hero-stats">
+          <div class="stat"><strong>4</strong><span>核心功能模块</span></div>
+          <div class="stat"><strong>3min</strong><span>完成一次诊断</span></div>
+          <div class="stat"><strong>1</strong><span>求职闭环流程</span></div>
+        </div>
+      </div>
+
+      <div class="mock-panel">
+        <div class="panel-top">
+          <div class="panel-title">AI 分析结果预览</div>
+          <span class="tag">产品实习岗位</span>
+        </div>
+        <div class="score-box">
+          <div class="score-row">
+            <div>
+              <div class="tag">简历匹配度</div>
+              <div class="score">76</div>
+            </div>
+            <span class="tag">建议重点优化项目经历</span>
+          </div>
+          <div class="progress"><span></span></div>
+        </div>
+        <div class="keyword-list">
+          <span class="keyword">用户需求分析</span>
+          <span class="keyword">竞品分析</span>
+          <span class="keyword">PRD</span>
+          <span class="keyword">AI 工具</span>
+          <span class="keyword">数据分析</span>
+        </div>
+        <div class="mini-list">
+          <div class="mini-item">优势：信息管理专业与 AI 产品、数据产品方向有一定匹配度。</div>
+          <div class="mini-item">问题：项目经历需要突出产品方法论和结果产出。</div>
+          <div class="mini-item">建议：补充 AI 产品设计项目，并写清用户痛点、功能拆解和指标。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="flow">
+      <div class="section-head">
+        <div>
+          <h2>用户核心流程</h2>
+          <p class="section-desc">把“让 AI 改简历”拆成稳定的产品流程，让没有提示词经验的大学生也能获得可执行建议。</p>
+        </div>
+      </div>
+      <div class="flow-grid">
+        <div class="flow-card">
+          <div class="step-num">01</div>
+          <h3>输入岗位 JD</h3>
+          <p>用户粘贴目标岗位职责和任职要求，系统提取核心能力关键词。</p>
+        </div>
+        <div class="flow-card">
+          <div class="step-num">02</div>
+          <h3>输入简历内容</h3>
+          <p>用户粘贴教育经历、项目经历、校园经历或完整简历文本。</p>
+        </div>
+        <div class="flow-card">
+          <div class="step-num">03</div>
+          <h3>生成诊断结果</h3>
+          <p>系统输出匹配度评分、优势、问题和需要重点补强的模块。</p>
+        </div>
+        <div class="flow-card">
+          <div class="step-num">04</div>
+          <h3>生成面试准备</h3>
+          <p>根据岗位和简历生成自我介绍、项目讲解和面试追问预测。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="prototype">
+      <div class="section-head">
+        <div>
+          <h2>核心页面原型</h2>
+          <p class="section-desc">该原型用于展示 MVP 版本的关键页面和交互逻辑，适合放入 AI 产品实习作品集。</p>
+        </div>
+      </div>
+
+      <div class="prototype">
+        <div class="input-card">
+          <div class="panel-top">
+            <div class="panel-title">输入页</div>
+            <span class="tag">Step 1</span>
+          </div>
+          <label>目标岗位方向</label>
+          <input id="job-direction" type="text" placeholder="请输入目标岗位方向，例如 AI 产品实习、数据产品实习、运营实习" value="AI 产品实习" />
+
+          <label>岗位 JD</label>
+          <textarea id="jd-input">岗位职责：参与 AI 产品需求分析、竞品调研、用户反馈整理，协助完成 PRD 和产品原型设计。</textarea>
+
+          <label>我的简历内容</label>
+          <textarea id="resume-input">西南大学信息管理相关专业，大三。熟悉 AI 工具使用，正在准备 AI 产品实习，完成 AI 简历优化助手产品设计项目。</textarea>
+
+          <div class="pdf-group">
+            <label>上传 PDF 简历</label>
+            <input id="pdf-input" type="file" accept="application/pdf" />
+            <button id="upload-pdf-btn" class="btn btn-secondary" style="width: 100%; margin-bottom: 12px;">解析 PDF 简历</button>
+            <div id="upload-status" style="font-size: 13px; color: #5e6a82; min-height: 18px;"></div>
+          </div>
+
+          <button id="analyze-btn" class="btn btn-primary" style="width: 100%;">生成 AI 诊断报告</button>
+        </div>
+
+        <div class="result-card">
+          <div class="panel-top">
+            <div class="panel-title">结果页</div>
+            <span class="tag">Step 2</span>
+          </div>
+          <div class="result-grid">
+            <div class="circle-score">
+              <strong>76</strong>
+              <span>匹配度评分</span>
+            </div>
+            <div class="diagnosis">
+              <div class="diagnosis-item">岗位关键词：AI 产品、竞品分析、需求文档、用户反馈、原型设计。</div>
+              <div class="diagnosis-item">主要优势：专业背景适合信息管理、数据分析和 AI 产品交叉方向。</div>
+              <div class="diagnosis-item">主要问题：简历中需要补充可展示项目，并强化产品方法论表达。</div>
+            </div>
+          </div>
+
+          <div class="keyword-list">
+            <span class="keyword">PRD</span>
+            <span class="keyword">MVP</span>
+            <span class="keyword">用户流程</span>
+            <span class="keyword">产品指标</span>
+            <span class="keyword">AI 应用</span>
+          </div>
+
+          <div class="compare">
+            <div class="compare-box">
+              <h4>改写前</h4>
+              <p>做了一个 AI 简历优化工具，帮助用户修改简历。</p>
+            </div>
+            <div class="compare-box highlight">
+              <h4>改写后</h4>
+              <p>围绕大学生实习求职场景，设计 AI 简历优化助手，完成用户痛点分析、竞品调研、功能拆解和 MVP 原型规划。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="interview">
+      <div class="section-head">
+        <div>
+          <h2>面试准备模块</h2>
+          <p class="section-desc">产品不仅优化简历，还帮助用户准备面试，让求职流程从“投递前”延伸到“面试前”。</p>
+        </div>
+      </div>
+      <div class="interview-grid">
+        <div class="interview-card">
+          <h3>自我介绍生成</h3>
+          <ul>
+            <li>突出专业背景</li>
+            <li>突出 AI 工具使用能力</li>
+            <li>突出产品作品经历</li>
+            <li>匹配目标岗位方向</li>
+          </ul>
+        </div>
+        <div class="interview-card">
+          <h3>项目追问预测</h3>
+          <ul>
+            <li>为什么做这个产品？</li>
+            <li>目标用户是谁？</li>
+            <li>和通用 AI 工具有什么区别？</li>
+            <li>如果上线看哪些指标？</li>
+          </ul>
+        </div>
+        <div class="interview-card">
+          <h3>反问问题推荐</h3>
+          <ul>
+            <li>团队目前 AI 产品的核心用户是谁？</li>
+            <li>实习生会参与哪些需求工作？</li>
+            <li>产品迭代主要参考哪些数据？</li>
+            <li>岗位最看重哪类能力？</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="mvp">
+      <div class="section-head">
+        <div>
+          <h2>MVP 范围与产品指标</h2>
+          <p class="section-desc">第一版不追求复杂功能，优先验证用户是否愿意输入 JD 和简历，并复制建议去修改简历。</p>
+        </div>
+      </div>
+      <div class="prd-grid">
+        <div class="prd-card">
+          <h3>MVP 功能</h3>
+          <ul>
+            <li>岗位方向选择</li>
+            <li>JD 文本输入</li>
+            <li>简历文本输入</li>
+            <li>匹配度诊断</li>
+            <li>简历改写建议</li>
+            <li>面试问题生成</li>
+          </ul>
+        </div>
+        <div class="prd-card">
+          <h3>核心指标</h3>
+          <ul>
+            <li>JD 输入完成率</li>
+            <li>简历输入完成率</li>
+            <li>分析结果查看率</li>
+            <li>优化建议复制率</li>
+            <li>面试问题查看率</li>
+            <li>二次使用率</li>
+          </ul>
+        </div>
+        <div class="prd-card">
+          <h3>后续迭代</h3>
+          <ul>
+            <li>支持 PDF 简历上传</li>
+            <li>增加多岗位模板</li>
+            <li>保存历史版本</li>
+            <li>生成投递记录表</li>
+            <li>根据反馈持续优化</li>
+            <li>接入真实大模型 API</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <nav class="bottom-nav" aria-label="移动端底部导航">
+      <a href="#home" class="active">首页</a>
+      <a href="#flow">流程</a>
+      <a href="#prototype">原型</a>
+      <a href="#interview">面试</a>
+      <a href="#mvp">指标</a>
+    </nav>
+  </main>
+  <script>
+    // 优先调用本地 /api/analyze（若在服务器上运行），否则回退到内嵌 mock
+    (function () {
+      const btn = document.getElementById('analyze-btn');
+      const jdInput = document.getElementById('jd-input');
+      const resumeInput = document.getElementById('resume-input');
+      const directionEl = document.getElementById('job-direction');
+      const shareLinkBtn = document.getElementById('share-link-btn');
+      const installBtn = document.getElementById('install-btn');
+      const installHint = document.getElementById('install-hint');
+
+      function extractKeywords(text, max = 8) {
+        if (!text) return [];
+        const stop = ['的','和','及','与','在','是','了','有','会','为','对','或','中','并','等','此','其','与'];
+        const parts = text.split(/[^\u4e00-\u9fa5a-zA-Z0-9]+/).filter(Boolean);
+        const freq = {};
+        parts.forEach(p => {
+          if (p.length <= 1) return;
+          if (stop.includes(p)) return;
+          freq[p] = (freq[p] || 0) + 1;
+        });
+        return Object.keys(freq).sort((a,b)=>freq[b]-freq[a]).slice(0,max);
+      }
+
+      function computeScore(jdKeywords, resumeText){
+        if (jdKeywords.length===0) return 50;
+        const rparts = resumeText.split(/[^\u4e00-\u9fa5a-zA-Z0-9]+/).filter(Boolean);
+        const set = new Set(rparts);
+        let hit = 0;
+        jdKeywords.forEach(k=>{ if (set.has(k)) hit++; });
+        return Math.min(98, Math.round((hit / jdKeywords.length) * 100));
+      }
+
+      function generateRewrite(resumeText, keywords){
+        const keyStr = keywords.length? ('，核心关键词：' + keywords.join('、')) : '';
+        const sentence = '围绕目标岗位强化项目的用户价值、实现方式和结果产出。建议采用 STAR 结构，突出目标、方法与量化指标' + keyStr + '。';
+        return sentence + '\n示例改写：' + (resumeText.length? resumeText.replace(/。/g,'，') + '，在项目中负责需求分析与产品设计，推动上线并产出关键指标提升。' : '（请粘贴你的项目经历，系统将基于此生成改写）');
+      }
+
+      function renderResultFromAPI(data){
+        // 兼容 API 返回结构
+        const score = data.score || data.match || 60;
+        const keywords = data.keywords || [];
+        const advantages = data.advantages || '';
+        const issues = data.issues || '';
+        const rewritten = data.rewritten || generateRewrite(document.getElementById('resume-input').value, keywords);
+
+        // 分数
+        const scoreEl = document.querySelector('.circle-score strong');
+        const matchSpan = document.querySelector('.score');
+        scoreEl.textContent = String(score);
+        if (matchSpan) matchSpan.textContent = String(score);
+
+        // 诊断
+        const diag = document.querySelector('.diagnosis');
+        diag.innerHTML = '';
+        const kwItem = document.createElement('div'); kwItem.className='diagnosis-item'; kwItem.textContent = '岗位关键词：' + (keywords.length? keywords.join('、') : '未提取到关键词'); diag.appendChild(kwItem);
+        const adv = document.createElement('div'); adv.className='diagnosis-item'; adv.textContent = '主要优势：' + (advantages || '可结合所学课程和工具能力，突出项目成果。'); diag.appendChild(adv);
+        const prob = document.createElement('div'); prob.className='diagnosis-item'; prob.textContent = '主要问题：' + (issues || '当前简历中对项目背景、目标与成果描述不够量化。'); diag.appendChild(prob);
+
+        // 关键词展示
+        const kwList = document.querySelectorAll('.result-card .keyword-list')[0];
+        if (kwList) { kwList.innerHTML = ''; (keywords.length? keywords : ['无显著关键词']).forEach(k=>{ const s=document.createElement('span'); s.className='keyword'; s.textContent=k; kwList.appendChild(s); }); }
+
+        // 改写对比
+        const beforeBox = document.querySelectorAll('.compare-box')[0];
+        const afterBox = document.querySelectorAll('.compare-box')[1];
+        if (beforeBox) beforeBox.querySelector('p').textContent = document.getElementById('resume-input').value.slice(0,200) || '（原始简历内容）';
+        if (afterBox) afterBox.querySelector('p').textContent = rewritten;
+
+        // 复制按钮
+        if (afterBox && !document.getElementById('copy-rewrite')) {
+          const btnCopy = document.createElement('button'); btnCopy.id='copy-rewrite'; btnCopy.className='btn btn-secondary'; btnCopy.style.marginTop='8px'; btnCopy.textContent='复制改写建议';
+          btnCopy.addEventListener('click', ()=>{ navigator.clipboard.writeText(afterBox.querySelector('p').textContent||'').then(()=>{ btnCopy.textContent='已复制'; setTimeout(()=>btnCopy.textContent='复制改写建议',1200) }); });
+          afterBox.appendChild(btnCopy);
+        }
+
+        // 面试问题
+        const interviewCards = document.querySelectorAll('.interview-card ul');
+        if (interviewCards && interviewCards.length >= 3) {
+          const selfIntro = Array.isArray(data.selfIntro) ? data.selfIntro : ['请突出专业背景与项目经验，说明你为什么适合该岗位。'];
+          const projectQuestions = Array.isArray(data.projectQuestions) ? data.projectQuestions : (Array.isArray(data.interview) ? data.interview : []);
+          const reverseQuestions = Array.isArray(data.reverseQuestions) ? data.reverseQuestions : ['贵公司实习生在 AI 产品团队中通常承担哪些核心任务？', '团队对实习生的指标和期望是什么？', '未来产品迭代主要依赖哪些用户数据？'];
+
+          interviewCards[0].innerHTML = '';
+          selfIntro.forEach(item => { const li = document.createElement('li'); li.textContent = item; interviewCards[0].appendChild(li); });
+
+          interviewCards[1].innerHTML = '';
+          projectQuestions.forEach(q => { const li = document.createElement('li'); li.textContent = q; interviewCards[1].appendChild(li); });
+
+          interviewCards[2].innerHTML = '';
+          reverseQuestions.forEach(q => { const li = document.createElement('li'); li.textContent = q; interviewCards[2].appendChild(li); });
+        }
+      }
+
+      // 本地 fallback
+      function localAnalyze(jd, resume, direction){
+        const kws = extractKeywords(jd);
+        const score = computeScore(kws, resume);
+        return {
+          score,
+          keywords: kws,
+          advantages: '',
+          issues: '',
+          rewritten: generateRewrite(resume, kws),
+          selfIntro: ['突出专业背景与工具使用能力，说明岗位匹配理由。', '简要介绍你的项目经历及成果。'],
+          projectQuestions: ['请简要介绍你参与的项目背景。', '项目中你负责哪些核心工作？', '你如何验证该功能的效果？'],
+          reverseQuestions: ['贵公司实习生在 AI 产品团队中通常承担哪些核心任务？', '团队对实习生的指标和期望是什么？', '未来产品迭代主要依赖哪些用户数据？']
+        };
+      }
+
+      async function callAnalyze(jd, resume, direction){
+        // 首选 /api/analyze
+        if (location.protocol.startsWith('http')){
+          try {
+            const res = await fetch('/api/analyze', { method: 'POST', headers: { 'Content-Type':'application/json' }, body: JSON.stringify({ jd, resume, direction }) });
+            if (res.ok) { const data = await res.json(); return data; }
+          } catch (e){ /* ignore, fallback */ }
+        }
+        return localAnalyze(jd, resume, direction);
+      }
+
+      async function uploadPDF(file) {
+        const form = new FormData();
+        form.append('file', file);
+        const res = await fetch('/api/parse-pdf', { method: 'POST', body: form });
+        if (!res.ok) {
+          const body = await res.json().catch(() => null);
+          throw new Error(body?.error || 'PDF 解析失败');
+        }
+        return (await res.json()).text || '';
+      }
+
+      function initPDFUpload() {
+        const fileInput = document.getElementById('pdf-input');
+        const uploadBtn = document.getElementById('upload-pdf-btn');
+        const status = document.getElementById('upload-status');
+        if (!fileInput || !uploadBtn || !status) return;
+
+        uploadBtn.addEventListener('click', async () => {
+          const file = fileInput.files?.[0];
+          if (!file) {
+            status.textContent = '请先选择 PDF 文件。';
+            return;
+          }
+          status.textContent = 'PDF 解析中...';
+          uploadBtn.disabled = true;
+          try {
+            const text = await uploadPDF(file);
+            if (text) {
+              resumeInput.value = text;
+              status.textContent = 'PDF 解析完成，已将文本填入简历内容。';
+            } else {
+              status.textContent = 'PDF 解析完成，但未提取到文本。';
+            }
+          } catch (error) {
+            status.textContent = '解析失败：' + (error.message || '请重试');
+          } finally {
+            uploadBtn.disabled = false;
+          }
+        });
+      }
+
+      btn.addEventListener('click', async ()=>{
+        const jd = jdInput.value || '';
+        const resume = resumeInput.value || '';
+        const direction = directionEl?.value || '';
+        if (!jd || !resume) { alert('请填写岗位 JD 和简历内容后再分析。'); return; }
+        btn.textContent = '生成中...'; btn.disabled = true;
+        const data = await callAnalyze(jd, resume, direction);
+        renderResultFromAPI(data);
+        btn.textContent = '生成 AI 诊断报告'; btn.disabled = false;
+      });
+
+      initPDFUpload();
+
+      if (shareLinkBtn) {
+        shareLinkBtn.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(location.href);
+            shareLinkBtn.textContent = '链接已复制';
+            setTimeout(() => { shareLinkBtn.textContent = '复制分享链接'; }, 1500);
+          } catch (error) {
+            alert('当前浏览器不支持自动复制，请手动复制地址栏链接。');
+          }
+        });
+      }
+
+      if (installBtn && installHint) {
+        installBtn.addEventListener('click', () => {
+          installHint.style.display = 'block';
+          installHint.textContent = '如果你在手机浏览器中打开，请使用“添加到主屏幕”将它安装成一个桌面图标。';
+        });
+      }
+
+      // 双击复制改写建议
+      document.addEventListener('dblclick', (e)=>{ const txt = e.target.textContent||''; if (txt.includes('示例改写') || txt.includes('改写后')){ navigator.clipboard?.writeText(txt).then(()=>alert('已复制改写建议')).catch(()=>{}); } });
+    })();
+  </script>
+</body>
+</html>

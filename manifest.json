@@ -1,0 +1,10 @@
+{
+  "name": "AI 简历优化助手",
+  "short_name": "简历优化",
+  "start_url": "/AI%E7%AE%80%E5%8E%86%E4%BC%98%E5%8C%96%E5%8A%A9%E6%89%8B_%E7%BD%91%E9%A1%B5%E5%8E%9F%E5%9E%8B.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#2454ff",
+  "icons": []
+}
