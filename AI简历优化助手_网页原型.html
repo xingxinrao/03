@@ -868,11 +868,12 @@
     </section>
 
     <section class="section" id="interview">
-      <div class="section-head">
+      <div class=”section-head”>
         <div>
           <h2>面试准备模块</h2>
-          <p class="section-desc">产品不仅优化简历，还帮助用户准备面试，让求职流程从“投递前”延伸到“面试前”。</p>
+          <p class=”section-desc”>产品不仅优化简历，还帮助用户准备面试，让求职流程从”投递前”延伸到”面试前”。</p>
         </div>
+        <button id=”interview-btn” class=”btn btn-primary” style=”white-space:nowrap”>生成面试准备</button>
       </div>
       <div class="interview-grid">
         <div class="interview-card">
@@ -1129,6 +1130,46 @@
         renderResultFromAPI(data);
         btn.textContent = '生成 AI 诊断报告'; btn.disabled = false;
       });
+
+      function renderInterviewFromData(data) {
+        const interviewCards = document.querySelectorAll('.interview-card ul');
+        if (!interviewCards || interviewCards.length < 3) return;
+        const selfIntro = Array.isArray(data.selfIntro) ? data.selfIntro : ['请突出专业背景与项目经验，说明你为什么适合该岗位。'];
+        const projectQuestions = Array.isArray(data.projectQuestions) ? data.projectQuestions : [];
+        const reverseQuestions = Array.isArray(data.reverseQuestions) ? data.reverseQuestions : ['贵公司实习生在 AI 产品团队中通常承担哪些核心任务？', '团队对实习生的指标和期望是什么？', '未来产品迭代主要依赖哪些用户数据？'];
+        interviewCards[0].innerHTML = '';
+        selfIntro.forEach(item => { const li = document.createElement('li'); li.textContent = item; interviewCards[0].appendChild(li); });
+        interviewCards[1].innerHTML = '';
+        projectQuestions.forEach(q => { const li = document.createElement('li'); li.textContent = q; interviewCards[1].appendChild(li); });
+        interviewCards[2].innerHTML = '';
+        reverseQuestions.forEach(q => { const li = document.createElement('li'); li.textContent = q; interviewCards[2].appendChild(li); });
+      }
+
+      async function callInterview(jd, resume, direction) {
+        if (location.protocol.startsWith('http')) {
+          try {
+            const res = await fetch('/api/interview', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ jd, resume, direction }) });
+            if (res.ok) { const data = await res.json(); return data; }
+          } catch (e) { /* ignore, fallback */ }
+        }
+        const { selfIntro, projectQuestions, reverseQuestions } = localAnalyze(jd, resume, direction);
+        return { selfIntro, projectQuestions, reverseQuestions };
+      }
+
+      const interviewBtn = document.getElementById('interview-btn');
+      if (interviewBtn) {
+        interviewBtn.addEventListener('click', async () => {
+          const jd = jdInput.value || '';
+          const resume = resumeInput.value || '';
+          const direction = directionEl?.value || '';
+          if (!jd || !resume) { alert('请先填写岗位 JD 和简历内容。'); return; }
+          interviewBtn.textContent = '生成中...'; interviewBtn.disabled = true;
+          const data = await callInterview(jd, resume, direction);
+          renderInterviewFromData(data);
+          interviewBtn.textContent = '生成面试准备'; interviewBtn.disabled = false;
+          document.getElementById('interview').scrollIntoView({ behavior: 'smooth' });
+        });
+      }
 
       initPDFUpload();
 
